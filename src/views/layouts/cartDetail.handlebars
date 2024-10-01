@@ -1,10 +1,29 @@
-<h2>Detalles del Carrito</h2>
+<h1>Carrito de compras</h1>
 <ul>
-  {{#each cart.products}}
-    <li>
-      <h3>{{this.product.title}}</h3>
-      <p>Cantidad: {{this.quantity}}</p>
-      <p>Precio: ${{this.product.price}}</p>
-    </li>
+  {{#each products}}
+  <li>
+    <h2>{{this.product.name}}</h2>
+    <p>Precio: {{this.product.price}}</p>
+    <p>Cantidad: {{this.quantity}}</p>
+    <button onclick="removeFromCart('{{this.product._id}}')">Eliminar del carrito</button>
+  </li>
   {{/each}}
 </ul>
+
+<script>
+  function removeFromCart(productId) {
+    // Lógica para eliminar el producto del carrito
+    fetch(`/api/carts/cartId/products/${productId}`, {
+      method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === 'success') {
+        alert('Producto eliminado del carrito');
+        location.reload(); // Recargar la página para reflejar los cambios
+      } else {
+        alert('Error al eliminar el producto del carrito');
+      }
+    });
+  }
+</script>

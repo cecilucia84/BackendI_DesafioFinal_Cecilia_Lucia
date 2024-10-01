@@ -1,73 +1,55 @@
-import { Router } from 'express';
-import Product from '../models/Products.js';
+import { Router } from 'express'; 
+import Product from '../models/Products.js'; // Asumiendo que tienes un modelo llamado 'Product'
 
 const router = Router();
 
-// Endpoint para obtener productos con paginación, filtros y ordenamiento
-router.get('/', async (req, res) => {
+router.get('/products', async (req, res) => {
   try {
-    const { page = 1, limit = 10, sort, category, query } = req.query;
+    // Parámetros por defecto y de query
+    const { limit = 10, page = 1, sort, query } = req.query;
     
-    // Filtro básico para categoría
-    const filter = {};
-    if (category) filter.category = category;
-    if (query) filter.title = { $regex: query, $options: 'i' }; // Filtro por nombre de producto
-
-    // Configurar ordenamiento
-    const sortQuery = {};
-    if (sort === 'asc') sortQuery.price = 1; // Orden ascendente
-    if (sort === 'desc') sortQuery.price = -1; // Orden descendente
-
-    // Aplicar paginación, filtros y ordenamiento
-    const products = await Product.find(filter)
-      .sort(sortQuery)
-      .skip((page - 1) * limit)
-      .limit(parseInt(limit));
-
-    // Contar el total de productos para paginación
-    const totalProducts = await Product.countDocuments(filter);
-    const totalPages = Math.ceil(totalProducts / limit);
-
-    // Construir el objeto de respuesta
-    const response = {
-      status: 'success',
-      payload: products,
-      totalPages,
-      prevPage: page > 1 ? page - 1 : null,
-      nextPage: page < totalPages ? page + 1 : null,
-      page,
-      hasPrevPage: page > 1,
-      hasNextPage: page < totalPages,
-      prevLink: page > 1 ? `/products?page=${page - 1}&limit=${limit}&sort=${sort}` : null,
-      nextLink: page < totalPages ? `/products?page=${page + 1}&limit=${limit}&sort=${sort}` : null,
-    };
-
-    res.json(response);
-  } catch (error) {
-    console.error('Error al obtener productos', error);
-    res.status(500).json({ error: 'Error al obtener productos' });
-  }
-});
-
-// Crear un nuevo producto
-router.post('/', async (req, res) => {
-  try {
-    const { title, description, code, price, stock, category, thumbnails } = req.body;
-
-    // Validar campos requeridos
-    if (!title || !description || !code || !price || !stock || !category) {
-      return res.status(400).json({ error: 'Todos los campos son requeridos' });
+    // Filtrado basado en 'query', puede buscar por categoría o disponibilidad
+    let filter = {};
+    if (query) {
+      filter = { $or: [{ category: query }, { availability: query }] }; // Filtra por categoría o disponibilidad
     }
 
-    // Crear un nuevo producto
-    const newProduct = new Product({ title, description, code, price, stock, category, thumbnails });
-    await newProduct.save();
+    // Ordenamiento basado en el parámetro 'sort'
+    let sortOptions = {};
+    if (sort) {
+      sortOptions.price = sort === 'asc' ? 1 : -1; // Orden ascendente o descendente por precio
+    }
 
-    res.status(201).json(newProduct);
+    // Paginación y búsqueda en la base de datos
+    const options = {
+      limit: parseInt(limit),
+      page: parseInt(page),
+      sort: sortOptions
+    };
+
+    const products = await Product.paginate(filter, options); // Usar método paginate para facilitar la paginación
+
+    // Creación de los enlaces para la paginación
+    const prevLink = products.hasPrevPage ? `/products?limit=${limit}&page=${products.prevPage}&sort=${sort}&query=${query}` : null;
+    const nextLink = products.hasNextPage ? `/products?limit=${limit}&page=${products.nextPage}&sort=${sort}&query=${query}` : null;
+
+    // Formato de respuesta
+    res.json({
+      status: 'success',
+      payload: products.docs, // Resultado de los productos solicitados
+      totalPages: products.totalPages,
+      prevPage: products.prevPage,
+      nextPage: products.nextPage,
+      page: products.page,
+      hasPrevPage: products.hasPrevPage,
+      hasNextPage: products.hasNextPage,
+      prevLink,
+      nextLink
+    });
   } catch (error) {
-    console.error('Error al crear producto', error);
-    res.status(500).json({ error: 'Error al crear el producto' });
+    res.status(500).json({ status: 'error', message: error.message });
   }
 });
+
 
 export default router;

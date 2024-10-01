@@ -27,39 +27,210 @@
   },
   {
     "id": 3,
-    "title": "Recetas",
-    "description": "Aprendé a cocinar con Tres Tartas!",
-    "code": "RC003",
-    "price": 0,
+    "title": "Sweet Cake",
+    "description": "Un pastel dulce para toda ocasión.",
+    "code": "SC004",
+    "price": 5000,
     "status": true,
-    "stock": 100,
-    "category": "Recetas",
+    "stock": 15,
+    "category": "Tortas",
     "thumbnails": [
-      "https://cdn.recetasderechupete.com/wp-content/uploads/2021/03/Postres-para-impresionar.jpg"
+      "https://example.com/sweet_cake.jpg"
     ]
   },
   {
     "id": 4,
-    "title": "sweet cake",
-    "price": "5000",
-    "status": true
+    "title": "Torta Princesas",
+    "description": "La torta perfecta para las pequeñas princesas.",
+    "code": "TP005",
+    "price": 7500,
+    "status": true,
+    "stock": 8,
+    "category": "Tortas",
+    "thumbnails": [
+      "https://example.com/torta_princesas.jpg"
+    ]
   },
   {
     "id": 5,
-    "title": "torta princesas",
-    "price": "7500",
-    "status": true
+    "title": "Desayuno Premium",
+    "description": "Un desayuno completo y delicioso.",
+    "code": "DP006",
+    "price": 6500,
+    "status": true,
+    "stock": 20,
+    "category": "Desayunos",
+    "thumbnails": [
+      "https://example.com/desayuno_premium.jpg"
+    ]
   },
   {
     "id": 6,
-    "title": "desayuno premium",
-    "price": "6500",
-    "status": true
+    "title": "Desayuno Infantil",
+    "description": "Desayuno diseñado para los más pequeños.",
+    "code": "DI007",
+    "price": 6000,
+    "status": true,
+    "stock": 12,
+    "category": "Desayunos",
+    "thumbnails": [
+      "https://example.com/desayuno_infantil.jpg"
+    ]
   },
   {
     "id": 7,
-    "title": "desayuno infantil",
-    "price": "6000",
-    "status": true
+    "title": "Tarta de Frutas",
+    "description": "Tarta fresca y deliciosa con frutas de temporada.",
+    "code": "TF008",
+    "price": 8000,
+    "status": true,
+    "stock": 10,
+    "category": "Tortas",
+    "thumbnails": [
+      "https://example.com/tarta_frutas.jpg"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Pastel de Chocolate",
+    "description": "Un rico pastel de chocolate para los amantes del cacao.",
+    "code": "PC009",
+    "price": 6000,
+    "status": true,
+    "stock": 7,
+    "category": "Tortas",
+    "thumbnails": [
+      "https://example.com/pastel_chocolate.jpg"
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Galletas Caseras",
+    "description": "Deliciosas galletas recién horneadas.",
+    "code": "GC010",
+    "price": 2500,
+    "status": true,
+    "stock": 50,
+    "category": "Galletas",
+    "thumbnails": [
+      "https://example.com/galletas_caseras.jpg"
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Cupcake de Vainilla",
+    "description": "Suaves y esponjosos cupcakes de vainilla.",
+    "code": "CV011",
+    "price": 3000,
+    "status": true,
+    "stock": 25,
+    "category": "Cupcakes",
+    "thumbnails": [
+      "https://example.com/cupcake_vainilla.jpg"
+    ]
+  },
+  {
+    "id": 11,
+    "title": "Galletas de Chocolate",
+    "description": "Galletas crujientes de chocolate.",
+    "code": "GC012",
+    "price": 2800,
+    "status": true,
+    "stock": 40,
+    "category": "Galletas",
+    "thumbnails": [
+      "https://example.com/galletas_chocolate.jpg"
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Tarta de Limón",
+    "description": "Refrescante tarta de limón con merengue.",
+    "code": "TL013",
+    "price": 7000,
+    "status": true,
+    "stock": 9,
+    "category": "Tortas",
+    "thumbnails": [
+      "https://example.com/tarta_limon.jpg"
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Brownie de Chocolate",
+    "description": "Dulce y denso brownie de chocolate.",
+    "code": "BC014",
+    "price": 3500,
+    "status": true,
+    "stock": 30,
+    "category": "Postres",
+    "thumbnails": [
+      "https://example.com/brownie.jpg"
+    ]
+  },
+  {
+    "id": 14,
+    "title": "Bizcocho de Naranja",
+    "description": "Esponjoso bizcocho de naranja, perfecto para el café.",
+    "code": "BN015",
+    "price": 4000,
+    "status": true,
+    "stock": 15,
+    "category": "Bizcochos",
+    "thumbnails": [
+      "https://example.com/bizcocho_naranja.jpg"
+    ]
+  },
+  {
+    "id": 15,
+    "title": "Tarta de Coco",
+    "description": "Deliciosa tarta de coco, suave y cremosa.",
+    "code": "TC016",
+    "price": 7500,
+    "status": true,
+    "stock": 11,
+    "category": "Tortas",
+    "thumbnails": [
+      "https://example.com/tarta_coco.jpg"
+    ]
+  },
+  {
+    "id": 16,
+    "title": "Pavlova",
+    "description": "Postre ligero hecho con merengue y frutas.",
+    "code": "PV017",
+    "price": 9000,
+    "status": true,
+    "stock": 6,
+    "category": "Postres",
+    "thumbnails": [
+      "https://example.com/pavlova.jpg"
+    ]
+  },
+  {
+    "id": 17,
+    "title": "Tarta de Queso",
+    "description": "Tarta de queso suave con mermelada de frutas.",
+    "code": "TQ018",
+    "price": 8000,
+    "status": true,
+    "stock": 8,
+    "category": "Tortas",
+    "thumbnails": [
+      "https://example.com/tarta_queso.jpg"
+    ]
+  },
+  {
+    "id": 18,
+    "title": "Muffin de Arándano",
+    "description": "Deliciosos muffins de arándano, perfectos para el desayuno.",
+    "code": "MA019",
+    "price": 3200,
+    "status": true,
+    "stock": 20,
+    "category": "Muffins",
+    "thumbnails": [
+      "https://example.com/muffin_arandano.jpg"
+    ]
   }
 ]

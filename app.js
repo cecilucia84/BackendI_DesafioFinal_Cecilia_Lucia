@@ -1,12 +1,11 @@
-// Importaciones necesarias
 import express from 'express';
 import path from 'path';
 import exphbs from 'express-handlebars';
-import mongoose from 'mongoose'; // Mongoose para conectar a MongoDB
-import connectDB from './src/config/db.js'; // Importa la conexión a la base de datos
-import productRoutes from './src/routes/products.router.js'; // Rutas de productos
-import cartRoutes from './src/routes/carts.router.js'; // Rutas de carritos
-import dotenv from 'dotenv'; // Para cargar las variables de entorno
+import mongoose from 'mongoose';
+import connectDB from './src/config/db.js';
+import productRoutes from './src/routes/products.router.js';
+import cartRoutes from './src/routes/carts.router.js';
+import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
@@ -17,11 +16,11 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Configurar dotenv para leer el archivo .env
+// Configurar dotenv
 dotenv.config();
 
 // Conectar a la base de datos MongoDB
-connectDB(); // Asegúrate de manejar errores en esta función
+connectDB();
 
 // Configurar el motor de plantillas Handlebars
 app.engine('handlebars', exphbs.engine());
@@ -32,7 +31,7 @@ app.set('views', path.join(__dirname, 'src', 'views'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Configuración de archivos estáticos (CSS, JS, imágenes, etc.)
+// Configuración de archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Rutas de la API
@@ -41,7 +40,7 @@ app.use('/api/carts', cartRoutes);
 
 // Ruta principal (Home Page)
 app.get('/', (req, res) => {
-    res.render('index', { title: 'Bienvenido a la tienda' });
+    res.render('index', { title: 'Bienvenido a Tres Tartas' });
 });
 
 // Iniciar servidor
