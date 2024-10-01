@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "title": "Sweet box",
+    "description": "Con todo lo mejor para que puedas sorprender a quien quieras!",
+    "code": "SB001",
+    "price": 7000,
+    "status": true,
+    "stock": 10,
+    "category": "Desayunos",
+    "thumbnails": [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYB2gaQK4JCGq4qhe7xY4hxV1i4eXohIqxMz2zFQY40g&s"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Chocotorta",
+    "description": "Nuestra Estrella!",
+    "code": "CT002",
+    "price": 5500,
+    "status": true,
+    "stock": 5,
+    "category": "Tortas",
+    "thumbnails": [
+      "https://www.clarin.com/2020/07/15/qH4UH5dLO_1200x0__1.jpg"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Recetas",
+    "description": "Aprendé a cocinar con Tres Tartas!",
+    "code": "RC003",
+    "price": 0,
+    "status": true,
+    "stock": 100,
+    "category": "Recetas",
+    "thumbnails": [
+      "https://cdn.recetasderechupete.com/wp-content/uploads/2021/03/Postres-para-impresionar.jpg"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "sweet cake",
+    "price": "5000",
+    "status": true
+  },
+  {
+    "id": 5,
+    "title": "torta princesas",
+    "price": "7500",
+    "status": true
+  },
+  {
+    "id": 6,
+    "title": "desayuno premium",
+    "price": "6500",
+    "status": true
+  },
+  {
+    "id": 7,
+    "title": "desayuno infantil",
+    "price": "6000",
+    "status": true
+  }
+]
