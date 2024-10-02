@@ -17,6 +17,9 @@ router.get('/', async (req, res) => { // Cambiado de '/products' a '/'
       filter = { $or: [{ category: query }, { availability: query }] }; // Filtra por categoría o disponibilidad
     }
 
+    // Log para depuración
+    console.log('Filter:', filter); // Log para ver el filtro aplicado
+
     // Ordenamiento basado en el parámetro 'sort'
     let sortOptions = {};
     if (sort) {
@@ -30,6 +33,7 @@ router.get('/', async (req, res) => { // Cambiado de '/products' a '/'
       sort: sortOptions
     };
 
+    // Asegúrate de que el plugin de paginación esté configurado en el modelo Product
     const products = await Product.paginate(filter, options); // Usar método paginate para facilitar la paginación
 
     // Creación de los enlaces para la paginación
@@ -50,6 +54,7 @@ router.get('/', async (req, res) => { // Cambiado de '/products' a '/'
       nextLink
     });
   } catch (error) {
+    console.error('Error al obtener productos:', error); // Agregar log para depuración
     res.status(500).json({ status: 'error', message: error.message });
   }
 });

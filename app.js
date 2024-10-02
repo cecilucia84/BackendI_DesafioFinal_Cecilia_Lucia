@@ -35,8 +35,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Rutas de la API
-app.use('/api/products', productRoutes);
-app.use('/api/carts', cartRoutes);
+app.use('/api/products', productRoutes); // Rutas para productos
+app.use('/api/carts', cartRoutes);       // Rutas para carritos
 
 // Ruta principal (Home Page)
 app.get('/', (req, res) => {
