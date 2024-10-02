@@ -1,13 +1,16 @@
+// src/routes/products.router.js
+
 import { Router } from 'express'; 
-import Product from '../models/Products.js'; // Asumiendo que tienes un modelo llamado 'Product'
+import Product from '../models/Products.js'; // Asegúrate de que este modelo esté definido correctamente
 
 const router = Router();
 
-router.get('/products', async (req, res) => {
+// Obtener todos los productos (ruta corregida)
+router.get('/', async (req, res) => { // Cambiado de '/products' a '/'
   try {
     // Parámetros por defecto y de query
     const { limit = 10, page = 1, sort, query } = req.query;
-    
+
     // Filtrado basado en 'query', puede buscar por categoría o disponibilidad
     let filter = {};
     if (query) {
@@ -30,8 +33,8 @@ router.get('/products', async (req, res) => {
     const products = await Product.paginate(filter, options); // Usar método paginate para facilitar la paginación
 
     // Creación de los enlaces para la paginación
-    const prevLink = products.hasPrevPage ? `/products?limit=${limit}&page=${products.prevPage}&sort=${sort}&query=${query}` : null;
-    const nextLink = products.hasNextPage ? `/products?limit=${limit}&page=${products.nextPage}&sort=${sort}&query=${query}` : null;
+    const prevLink = products.hasPrevPage ? `/api/products?limit=${limit}&page=${products.prevPage}&sort=${sort}&query=${query}` : null;
+    const nextLink = products.hasNextPage ? `/api/products?limit=${limit}&page=${products.nextPage}&sort=${sort}&query=${query}` : null;
 
     // Formato de respuesta
     res.json({
@@ -50,6 +53,5 @@ router.get('/products', async (req, res) => {
     res.status(500).json({ status: 'error', message: error.message });
   }
 });
-
 
 export default router;
