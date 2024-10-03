@@ -1,16 +1,15 @@
 import ProductDAO from '../dao/products.dao.js';
 
 export default class ProductRepository {
-
-  #productDAO
+  #productDAO;
 
   constructor() {
     this.#productDAO = new ProductDAO();
-  };
+  }
 
   async getProducts(page, limit, sort, category, availability) {
     try {
-      // Validación y formateo de los parámetros en un solo método
+      // Validación y formateo de los parámetros
       const query = {
         ...(category && { category }),
         ...(availability && { status: availability === 'true' })
@@ -24,47 +23,48 @@ export default class ProductRepository {
       };
 
       // Verificación del número de página
-      if (isNaN(page)) {
+      if (isNaN(page) || page <= 0) {
         throw new Error({ status: 400, name: "Error de paginado." });
-      };
+      }
 
       // Llamada a la base de datos para obtener productos paginados
       const products = await this.#productDAO.getPaginateProducts(query, options);
 
-      if (!products || !products.docs.length) {
-        return [];
-      };
-
       // Verificación de que la página solicitada exista
+      if (!products || products.docs.length === 0) {
+        return { products: [], totalPages: 0, currentPage: page };
+      }
+
       if (page > products.totalPages) {
         throw new Error({ status: 400, name: "Error de paginado." });
-      };
+      }
 
       // Devolver productos paginados
       return products;
-
+      
     } catch (error) {
       // Manejo de errores con un CustomError
       throw new Error({
         name: error.name || 'Error al conectar',
         status: error.status || 500
       });
-    };
-  };
+    }
+  }
 
   async getProductById(id) {
     try {
       const product = await this.#productDAO.getProductById(id);
-
+      if (!product) {
+        throw new Error({ name: 'El producto no existe', status: 404 });
+      }
       return product;
-
-    } catch {
+    } catch (error) {
       throw new Error({
-        name: 'El producto no existe',
-        status: 404
+        name: error.name || 'Error al obtener el producto',
+        status: error.status || 500
       });
-    };
-  };
+    }
+  }
 
   async addProduct(productData) {
     try {
@@ -75,15 +75,15 @@ export default class ProductRepository {
 
       if (!title || !description || !code || !category || invalidOptions) {
         throw new Error({ status: 400, name: 'Error al agregar el producto' });
-      };
+      }
 
       const finalThumbnail = thumbnail ? `../products/${thumbnail.originalname}` : 'Sin Imagen';
-      const finalStatus = stock >= 1 ? true : false;
+      const finalStatus = stock >= 1;
 
       // Verificación de existencia de código
       const existingCode = await this.#productDAO.findByCode(code);
       if (existingCode) {
-        throw new Error({ status: 409, name: 'Error al agregar el producto' });
+        throw new Error({ status: 409, name: 'El código ya existe, error al agregar el producto' });
       }
 
       // Creación del nuevo producto
@@ -100,7 +100,6 @@ export default class ProductRepository {
 
       // Agregar el producto a la base de datos
       const product = await this.#productDAO.addProduct(newProduct);
-
       return product;
 
     } catch (error) {
@@ -108,8 +107,8 @@ export default class ProductRepository {
         name: error.name || 'Error al conectar',
         status: error.status || 500
       });
-    };
-  };
+    }
+  }
 
   async updateProduct(id, productData) {
     try {
@@ -120,42 +119,45 @@ export default class ProductRepository {
       if (!areFieldsPresent) {
         throw new Error({
           name: 'Campos inválidos',
-          status: 500
+          status: 400
         });
-      };
+      }
+
+      // Validaciones específicas según los campos
+      if (productData.price && (isNaN(+productData.price) || +productData.price <= 0)) {
+        throw new Error({ name: 'Precio inválido', status: 400 });
+      }
+      if (productData.stock && (isNaN(+productData.stock) || +productData.stock < 0)) {
+        throw new Error({ name: 'Stock inválido', status: 400 });
+      }
 
       await this.#productDAO.updateProduct(id, productData);
 
       const updatedProduct = await this.#productDAO.getProductById(id);
-
       return updatedProduct;
 
     } catch (error) {
       throw new Error({
-        name: error.name || 'Error al actualizar',
+        name: error.name || 'Error al actualizar el producto',
         status: error.status || 500
       });
-    };
-  };
+    }
+  }
 
   async deleteProduct(productId) {
     try {
       const product = await this.getProductById(productId);
-
       if (!product) {
-        throw new Error({
-          status: 404,
-          name: 'El producto no existe.'
-        });
-      };
+        throw new Error({ status: 404, name: 'El producto no existe.' });
+      }
 
       return await this.#productDAO.deleteProduct(productId);
 
     } catch (error) {
       throw new Error({
-        name: error.name || 'Error al actualizar',
+        name: error.name || 'Error al eliminar el producto',
         status: error.status || 500
       });
-    };
-  };
-};
+    }
+  }
+}

@@ -1,7 +1,6 @@
 import ProductService from '../services/ProductManager.js';
 
 export default class Controller {
-
     #productService;
 
     constructor() {
@@ -10,18 +9,53 @@ export default class Controller {
 
     async getProducts(req, res) {
         try {
-            const page = req.query.page || 1;
-            const limit = req.query.limit || 10;
-            const sort = req.query.sort;
-            const category = req.query.category;
-            const availability = req.query.availability;
+            // Extraer los parámetros de la consulta, proporcionando valores predeterminados.
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || 10;
+            const sort = req.query.sort; // 'asc' o 'desc'
+            const query = req.query.query; // Para búsqueda por nombre o categoría
 
-            const products = await this.#productService.getProducts(page, limit, sort, category, availability);
+            // Preparar las opciones de búsqueda
+            const options = {
+                limit,
+                skip: (page - 1) * limit,
+                sort: sort === 'asc' ? { price: 1 } : sort === 'desc' ? { price: -1 } : {}
+            };
 
-            res.status(200).json(products);
+            const match = {};
+            if (query) {
+                // Crear expresiones regulares para búsqueda por título o categoría
+                match.$or = [
+                    { title: new RegExp(query, 'i') }, // Búsqueda por nombre
+                    { category: new RegExp(query, 'i') } // Búsqueda por categoría
+                ];
+            }
+
+            // Obtener productos de la base de datos
+            const products = await this.#productService.getProducts(options, match);
+            const total = await this.#productService.countProducts(match); // Método adicional para contar total de productos
+
+            // Calcular total de páginas
+            const totalPages = Math.ceil(total / limit);
+
+            // Preparar respuesta
+            const response = {
+                status: 'success',
+                payload: products,
+                totalPages,
+                prevPage: page > 1 ? page - 1 : null,
+                nextPage: page < totalPages ? page + 1 : null,
+                page,
+                hasPrevPage: page > 1,
+                hasNextPage: page < totalPages,
+                prevLink: page > 1 ? `/api/products?limit=${limit}&page=${page - 1}&sort=${sort}&query=${query}` : null,
+                nextLink: page < totalPages ? `/api/products?limit=${limit}&page=${page + 1}&sort=${sort}&query=${query}` : null
+            };
+
+            res.status(200).json(response);
 
         } catch (error) {
-            res.status(error.status).json({ error });
+            res.status(error.status || 500).json({ error: error.message });
         };
     };
 
@@ -33,7 +67,7 @@ export default class Controller {
             res.status(200).json(product);
 
         } catch (error) {
-            res.status(error.status).json({ error });
+            res.status(error.status || 500).json({ error: error.message });
         };
     };
 
@@ -47,7 +81,7 @@ export default class Controller {
             res.status(201).json(product);
 
         } catch (error) {
-            res.status(error.status).json({ error });
+            res.status(error.status || 500).json({ error: error.message });
         };
     };
 
@@ -59,7 +93,7 @@ export default class Controller {
             res.status(201).json(updatedProduct);
 
         } catch (error) {
-            res.status(error.status).json({ error });
+            res.status(error.status || 500).json({ error: error.message });
         };
     };
 
@@ -71,7 +105,7 @@ export default class Controller {
             res.status(204).json({ message: 'Producto eliminado' });
 
         } catch (error) {
-            res.status(error.status).json({ error });
+            res.status(error.status || 500).json({ error: error.message });
         };
     };
 };

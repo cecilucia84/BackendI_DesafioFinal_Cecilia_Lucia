@@ -1,19 +1,62 @@
 <div class="container">
-    <h2>ID Carrito: 66fdb280ce811c8293e42e41</h2>
+    <h2>ID Carrito: {{cart._id}}</h2> <!-- Cambié el ID del carrito a dinámico -->
     <ul>
-        {{#each cart.products}}
+        {{#each cart.products}} <!-- Asegúrate de que 'products' sea la propiedad correcta -->
         <li>
             <div class="cartProduct">
                 <div>
-                    <p>Nombre de Producto: {{this.title}}</p>
-                    <p>ID Producto: {{this.productId}}</p>
-                    <p>Código de Producto: {{this.code}}</p>
+                    <p>Nombre de Producto: {{this.product.title}}</p> <!-- Ajusté para acceder al título -->
+                    <p>ID Producto: {{this.product._id}}</p> <!-- Cambié a 'this.product._id' -->
+                    <p>Código de Producto: {{this.product.code}}</p> <!-- Cambié a 'this.product.code' -->
                     <p>Cantidad en Carrito: {{this.quantity}}</p>
                 </div>
+                <button onclick="removeFromCart('{{this.product._id}}')">Eliminar</button> <!-- Botón para eliminar el producto -->
             </div>
         </li>
         {{/each}}
     </ul>
+    <button onclick="clearCart()">Vaciar Carrito</button> <!-- Botón para vaciar el carrito -->
     <a href="/products">Volver</a>
-
 </div>
+
+<script>
+    function removeFromCart(productId) {
+        const cartId = '{{cart._id}}'; // Cambia esto por la lógica para obtener el ID del carrito si es necesario
+        fetch(`/api/carts/${cartId}/products/${productId}`, {
+            method: 'DELETE', // Método DELETE para eliminar el producto
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert('Producto eliminado del carrito');
+                // Recargar la página o actualizar la lista de productos
+                location.reload();
+            } else {
+                alert('Error al eliminar el producto del carrito');
+            }
+        })
+        .catch(error => {
+            console.error('Error al eliminar del carrito:', error);
+        });
+    }
+
+    function clearCart() {
+        const cartId = '{{cart._id}}'; // Cambia esto por la lógica para obtener el ID del carrito si es necesario
+        fetch(`/api/carts/${cartId}`, {
+            method: 'DELETE', // Método DELETE para vaciar el carrito
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert('Carrito vaciado');
+                // Recargar la página o redirigir a otra página
+                location.reload();
+            } else {
+                alert('Error al vaciar el carrito');
+            }
+        })
+        .catch(error => {
+            console.error('Error al vaciar el carrito:', error);
+        });
+    }
+</script>
