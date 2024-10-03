@@ -1,21 +1,42 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}}</title> <!-- Cambia esto por el título que desees -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{#each style}}
+    <link rel="stylesheet" href="/css/{{this}}">
+    {{/each}}
+    <title>{{titlePage}}</title>
 </head>
-<body>
-    <h1>Listado de Productos</h1>
-    <form id="productForm">
-        <input type="text" id="title" placeholder="Título del producto" required>
-        <input type="number" id="price" placeholder="Precio" required>
-        <button type="submit">Agregar Producto</button>
-    </form>
-    <ul id="productList"></ul>
 
-    <script src="/src/public/js/realtimeProducts.js"></script> <!-- Asegúrate de que la ruta sea correcta -->
+<body>
+    <div class="navBar">
+        <h1>Ecommerce</h1>
+        <ul class="ul">
+            <li><a href="/products">Productos</a></li>
+            <li><a href="/carts/66fdb280ce811c8293e42e41">Carrito</a></li>
+        </ul>
+    </div>
+    {{{body}}}
+
+    {{#if useWS}}
+    <script src="/socket.io/socket.io.js"></script>
+    {{/if}}
+
+    {{!-- jquery --}}
+    {{!--
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script> --}}
+
+    {{!-- incluir librería sweetalert si es necesario --}}
+    {{#if useSweetAlert }}
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{/if}}
+
+    {{#each script}}
+    <script src="/js/{{this}}"></script>
+    {{/each}}
 </body>
+
 </html>

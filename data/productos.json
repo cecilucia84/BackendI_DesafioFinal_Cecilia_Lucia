@@ -1,6 +1,5 @@
 [
   {
-    "id": 1,
     "title": "Sweet box",
     "description": "Con todo lo mejor para que puedas sorprender a quien quieras!",
     "code": "SB001",
@@ -13,7 +12,6 @@
     ]
   },
   {
-    "id": 2,
     "title": "Chocotorta",
     "description": "Nuestra Estrella!",
     "code": "CT002",
@@ -26,7 +24,6 @@
     ]
   },
   {
-    "id": 3,
     "title": "Sweet Cake",
     "description": "Un pastel dulce para toda ocasión.",
     "code": "SC004",
@@ -39,7 +36,6 @@
     ]
   },
   {
-    "id": 4,
     "title": "Torta Princesas",
     "description": "La torta perfecta para las pequeñas princesas.",
     "code": "TP005",
@@ -52,7 +48,6 @@
     ]
   },
   {
-    "id": 5,
     "title": "Desayuno Premium",
     "description": "Un desayuno completo y delicioso.",
     "code": "DP006",
@@ -65,7 +60,6 @@
     ]
   },
   {
-    "id": 6,
     "title": "Desayuno Infantil",
     "description": "Desayuno diseñado para los más pequeños.",
     "code": "DI007",
@@ -78,7 +72,6 @@
     ]
   },
   {
-    "id": 7,
     "title": "Tarta de Frutas",
     "description": "Tarta fresca y deliciosa con frutas de temporada.",
     "code": "TF008",
@@ -91,7 +84,6 @@
     ]
   },
   {
-    "id": 8,
     "title": "Pastel de Chocolate",
     "description": "Un rico pastel de chocolate para los amantes del cacao.",
     "code": "PC009",
@@ -104,7 +96,6 @@
     ]
   },
   {
-    "id": 9,
     "title": "Galletas Caseras",
     "description": "Deliciosas galletas recién horneadas.",
     "code": "GC010",
@@ -117,7 +108,6 @@
     ]
   },
   {
-    "id": 10,
     "title": "Cupcake de Vainilla",
     "description": "Suaves y esponjosos cupcakes de vainilla.",
     "code": "CV011",
@@ -130,7 +120,6 @@
     ]
   },
   {
-    "id": 11,
     "title": "Galletas de Chocolate",
     "description": "Galletas crujientes de chocolate.",
     "code": "GC012",
@@ -143,7 +132,6 @@
     ]
   },
   {
-    "id": 12,
     "title": "Tarta de Limón",
     "description": "Refrescante tarta de limón con merengue.",
     "code": "TL013",
@@ -156,7 +144,6 @@
     ]
   },
   {
-    "id": 13,
     "title": "Brownie de Chocolate",
     "description": "Dulce y denso brownie de chocolate.",
     "code": "BC014",
@@ -169,7 +156,6 @@
     ]
   },
   {
-    "id": 14,
     "title": "Bizcocho de Naranja",
     "description": "Esponjoso bizcocho de naranja, perfecto para el café.",
     "code": "BN015",
@@ -182,7 +168,6 @@
     ]
   },
   {
-    "id": 15,
     "title": "Tarta de Coco",
     "description": "Deliciosa tarta de coco, suave y cremosa.",
     "code": "TC016",
@@ -195,7 +180,6 @@
     ]
   },
   {
-    "id": 16,
     "title": "Pavlova",
     "description": "Postre ligero hecho con merengue y frutas.",
     "code": "PV017",
@@ -208,7 +192,6 @@
     ]
   },
   {
-    "id": 17,
     "title": "Tarta de Queso",
     "description": "Tarta de queso suave con mermelada de frutas.",
     "code": "TQ018",
@@ -221,7 +204,6 @@
     ]
   },
   {
-    "id": 18,
     "title": "Muffin de Arándano",
     "description": "Deliciosos muffins de arándano, perfectos para el desayuno.",
     "code": "MA019",

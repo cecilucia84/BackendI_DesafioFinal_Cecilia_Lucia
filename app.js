@@ -2,15 +2,10 @@ import express from 'express';
 import path from 'path';
 import exphbs from 'express-handlebars';
 import mongoose from 'mongoose';
-import connectDB from './src/config/db.js';
-import productRoutes from './src/routes/products.router.js';
-import cartRoutes from './src/routes/carts.router.js';
-import dotenv from 'dotenv';
+import { cartRouter, cartRouterView, productRouter, productRouterView } from './src/routes/index.js';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-
-// Configurar dotenv
-dotenv.config();
+import config from './dbconfig.js';
 
 // Inicializar Express
 const app = express();
@@ -19,8 +14,8 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Conectar a la base de datos MongoDB
-connectDB();
+// Configurar dotenv
+const { mongoUrl, dbName } = config
 
 // Configurar el motor de plantillas Handlebars
 app.engine('handlebars', exphbs.engine());
@@ -35,16 +30,24 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Rutas de la API
-app.use('/api/products', productRoutes); // Rutas para productos
-app.use('/api/carts', cartRoutes);       // Rutas para carritos
-
-// Ruta principal (Home Page)
-app.get('/', (req, res) => {
-    res.render('index', { title: 'Bienvenido a Tres Tartas' });
-});
+app.use('/api/products', productRouter);
+app.use('/products', productRouterView);
+app.use('/api/carts', cartRouter);
+app.use('/carts', cartRouterView);
 
 // Iniciar servidor
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor escuchando en el puerto ${PORT}`);
-});
+const startServer = async () => {
+    try {
+        await mongoose.connect(mongoUrl, { dbName });
+
+        const PORT = process.env.PORT || 8080;
+
+        app.listen(PORT, '0.0.0.0', () => {
+            console.log(`\nServidor cargado en el puerto ${PORT}`);
+        });
+    } catch (error) {
+        console.error('Error al iniciar el servidor:', error);
+    };
+};
+
+startServer();

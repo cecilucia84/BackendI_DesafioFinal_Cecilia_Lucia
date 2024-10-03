@@ -1,0 +1,19 @@
+<div class="container">
+    <h2>ID Carrito: 66fdb280ce811c8293e42e41</h2>
+    <ul>
+        {{#each cart.products}}
+        <li>
+            <div class="cartProduct">
+                <div>
+                    <p>Nombre de Producto: {{this.title}}</p>
+                    <p>ID Producto: {{this.productId}}</p>
+                    <p>Código de Producto: {{this.code}}</p>
+                    <p>Cantidad en Carrito: {{this.quantity}}</p>
+                </div>
+            </div>
+        </li>
+        {{/each}}
+    </ul>
+    <a href="/products">Volver</a>
+
+</div>
