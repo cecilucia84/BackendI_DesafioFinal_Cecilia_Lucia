@@ -46,7 +46,7 @@ export default class CartRepository {
     try {
       let cart = await this.#verifyCartExists(id);
 
-      // Se verifica que no se hayan eliminado de la DB los productos cargados en el carrito
+    
       const updatedCart = cart.products.filter(i => i.product !== null);
       if (updatedCart.lenght !== cart.products.length) {
         cart.products = updatedCart;
@@ -79,19 +79,18 @@ export default class CartRepository {
     await this.#verifyProductExists(productId);
     const cart = await this.#verifyCartExists(cartId);
 
-    // Verificar si el producto ya está en el carrito
+ 
     const existingProductIndex = cart.products.findIndex(p => p.product.equals(productId));
 
     if (existingProductIndex !== -1) {
-      // Si el producto existe, aumentar su cantidad en 1
+ 
       cart.products[existingProductIndex].quantity += 1;
 
     } else {
-      // Si el producto no existe, agregarlo al carrito con cantidad 1
+    
       cart.products.push({ product: productId, quantity: 1 });
     };
 
-    // Guardar el carrito actualizado
     await this.#cartDAO.updateCart(cartId, { products: cart.products });
 
     return cart;
@@ -117,7 +116,7 @@ export default class CartRepository {
     try {
       const cart = await this.#verifyCartExists(cartId);
 
-      // Iterar sobre cada producto en el arreglo de productos
+ 
       for (const { product: productId, quantity } of products) {
         await this.#verifyProductExists(productId);
 
@@ -125,20 +124,20 @@ export default class CartRepository {
           throw new Error('Error en la petición');
         };
 
-        // Verificar si el producto ya está en el carrito
+    
         const existingProductIndex = cart.products.findIndex(p => p.product.equals(productId));
 
         if (existingProductIndex !== -1) {
-          // Si el producto ya está en el carrito, actualizar la cantidad
+         
           cart.products[existingProductIndex].quantity += quantity;
 
         } else {
-          // Si el producto no está en el carrito, agregarlo
+ 
           cart.products.push({ product: productId, quantity });
         };
       };
 
-      // Guardar los cambios en el carrito utilizando el DAO
+  
       await this.#cartDAO.updateCart(cartId, { products: cart.products });
 
       const updatedCart = await this.#cartDAO.getCartById(cartId);

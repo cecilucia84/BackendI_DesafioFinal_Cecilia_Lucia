@@ -1,7 +1,7 @@
 document.querySelectorAll('form[data-method="DELETE"]').forEach(form => {
     form.addEventListener('submit', event => {
         event.preventDefault();
-        const actionUrl = form.action.replace('https://', 'http://'); // Asegurarse de que se usa HTTP
+        const actionUrl = form.action.replace('https://', 'http://');
 
         fetch(actionUrl, {
             method: 'DELETE',

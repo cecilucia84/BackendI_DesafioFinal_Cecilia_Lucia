@@ -12,7 +12,7 @@ export default class Controller {
         try {
 
             const id = req.params.cid;
-            const cart = await this.#cartRepository.getCartById(id); // Obtiene el carrito por su ID
+            const cart = await this.#cartRepository.getCartById(id); 
 
             const cartData = {
                 id: cart.id,
@@ -29,7 +29,7 @@ export default class Controller {
                 titlePage: 'Carrito',
                 style: ['styles.css'],
                 script: ['scripts.js'],
-            }); // Responde con el carrito obtenido
+            }); 
 
         } catch (error) {
             res.status(500).json({ error });

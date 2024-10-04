@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import Controller from '../controller/cart.controller.js';
 
-const router = Router(); // Crea un enrutador
+const router = Router();
 
 // Ruta para obtener todos los carritos
 router.get('/', (_, res) => new Controller().getCarts(res));
@@ -27,4 +27,4 @@ router.put('/:cid/product/:pid', (req, res) => new Controller().updateProductQua
 // Ruta para vacial el carrito
 router.delete('/:cid', async (req, res) => new Controller().clearCart(req, res));
 
-export default router; // Exporta el enrutador
+export default router; 

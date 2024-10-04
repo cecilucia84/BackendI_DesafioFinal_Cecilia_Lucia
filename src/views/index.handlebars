@@ -24,13 +24,13 @@
 
 <script>
   function addToCart(productId) {
-    // Lógica para agregar el producto al carrito
+    
     fetch(`/api/carts/cartId/products/${productId}`, {
-      method: 'PUT', // O POST dependiendo de la lógica de tu proyecto
+      method: 'PUT', 
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ quantity: 1 }) // Puedes ajustar la cantidad
+      body: JSON.stringify({ quantity: 1 })
     })
     .then(response => response.json())
     .then(data => {
