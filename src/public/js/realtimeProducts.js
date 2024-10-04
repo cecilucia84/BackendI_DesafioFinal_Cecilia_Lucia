@@ -11,14 +11,14 @@ if (productForm && productList) {
     const price = document.getElementById("price").value;
 
     if (title.trim() && price.trim()) {
-      // Emitir evento para agregar el producto
+  
       socket.emit("addProduct", { title, price });
 
-      // Limpiar campos del formulario
+
       document.getElementById("title").value = "";
       document.getElementById("price").value = "";
 
-      // Mostrar alerta de éxito
+  
       Swal.fire({
         icon: "success",
         title: "¡Producto Agregado!",
@@ -26,7 +26,7 @@ if (productForm && productList) {
         confirmButtonText: "Aceptar"
       });
     } else {
-      // Mostrar alerta de advertencia si faltan campos
+ 
       Swal.fire({
         icon: "warning",
         title: "Alerta",

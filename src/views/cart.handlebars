@@ -1,35 +1,35 @@
 <div class="container">
-    <h2>ID Carrito: {{cart._id}}</h2> <!-- Cambié el ID del carrito a dinámico -->
+    <h2>ID Carrito: {{cart._id}}</h2> 
     <ul>
-        {{#each cart.products}} <!-- Asegúrate de que 'products' sea la propiedad correcta -->
+        {{#each cart.products}} 
         <li>
             <div class="cartProduct">
                 <div>
-                    <p>Nombre de Producto: {{this.product.title}}</p> <!-- Ajusté para acceder al título -->
-                    <p>ID Producto: {{this.product._id}}</p> <!-- Cambié a 'this.product._id' -->
-                    <p>Código de Producto: {{this.product.code}}</p> <!-- Cambié a 'this.product.code' -->
+                    <p>Nombre de Producto: {{this.product.title}}</p> 
+                    <p>ID Producto: {{this.product._id}}</p> 
+                    <p>Código de Producto: {{this.product.code}}</p> 
                     <p>Cantidad en Carrito: {{this.quantity}}</p>
                 </div>
-                <button onclick="removeFromCart('{{this.product._id}}')">Eliminar</button> <!-- Botón para eliminar el producto -->
+                <button onclick="removeFromCart('{{this.product._id}}')">Eliminar</button> 
             </div>
         </li>
         {{/each}}
     </ul>
-    <button onclick="clearCart()">Vaciar Carrito</button> <!-- Botón para vaciar el carrito -->
+    <button onclick="clearCart()">Vaciar Carrito</button> 
     <a href="/products">Volver</a>
 </div>
 
 <script>
     function removeFromCart(productId) {
-        const cartId = '{{cart._id}}'; // Cambia esto por la lógica para obtener el ID del carrito si es necesario
+        const cartId = '{{cart._id}}'; 
         fetch(`/api/carts/${cartId}/products/${productId}`, {
-            method: 'DELETE', // Método DELETE para eliminar el producto
+            method: 'DELETE', 
         })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
                 alert('Producto eliminado del carrito');
-                // Recargar la página o actualizar la lista de productos
+          
                 location.reload();
             } else {
                 alert('Error al eliminar el producto del carrito');
@@ -41,15 +41,15 @@
     }
 
     function clearCart() {
-        const cartId = '{{cart._id}}'; // Cambia esto por la lógica para obtener el ID del carrito si es necesario
+        const cartId = '{{cart._id}}'; 
         fetch(`/api/carts/${cartId}`, {
-            method: 'DELETE', // Método DELETE para vaciar el carrito
+            method: 'DELETE', 
         })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
                 alert('Carrito vaciado');
-                // Recargar la página o redirigir a otra página
+             
                 location.reload();
             } else {
                 alert('Error al vaciar el carrito');

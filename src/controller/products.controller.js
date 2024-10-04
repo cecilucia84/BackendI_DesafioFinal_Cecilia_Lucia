@@ -9,13 +9,13 @@ export default class Controller {
 
     async getProducts(req, res) {
         try {
-            // Extraer los parámetros de la consulta, proporcionando valores predeterminados.
+ 
             const page = parseInt(req.query.page) || 1;
             const limit = parseInt(req.query.limit) || 10;
             const sort = req.query.sort; // 'asc' o 'desc'
-            const query = req.query.query; // Para búsqueda por nombre o categoría
+            const query = req.query.query; // 
 
-            // Preparar las opciones de búsqueda
+          
             const options = {
                 limit,
                 skip: (page - 1) * limit,
@@ -24,21 +24,21 @@ export default class Controller {
 
             const match = {};
             if (query) {
-                // Crear expresiones regulares para búsqueda por título o categoría
+     
                 match.$or = [
-                    { title: new RegExp(query, 'i') }, // Búsqueda por nombre
-                    { category: new RegExp(query, 'i') } // Búsqueda por categoría
+                    { title: new RegExp(query, 'i') }, // 
+                    { category: new RegExp(query, 'i') } //
                 ];
             }
 
-            // Obtener productos de la base de datos
+          
             const products = await this.#productService.getProducts(options, match);
-            const total = await this.#productService.countProducts(match); // Método adicional para contar total de productos
+            const total = await this.#productService.countProducts(match); // 
 
-            // Calcular total de páginas
+          
             const totalPages = Math.ceil(total / limit);
 
-            // Preparar respuesta
+         
             const response = {
                 status: 'success',
                 payload: products,

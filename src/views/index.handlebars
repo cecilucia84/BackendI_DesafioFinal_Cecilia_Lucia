@@ -1,8 +1,8 @@
 <h1>Lista de productos</h1>
 <ul>
-  {{#each products.payload}} <!-- Asegúrate de usar 'payload' si así está estructurado -->
+  {{#each products.payload}} 
   <li>
-    <h2>{{this.title}}</h2> <!-- Cambié 'this.name' a 'this.title' -->
+    <h2>{{this.title}}</h2> 
     <p>{{this.description}}</p>
     <p>Precio: {{this.price}}</p>
     <p>Categoría: {{this.category}}</p>
@@ -13,7 +13,7 @@
 </ul>
 
 <div>
-  {{#if products.hasPrevPage}} <!-- Asegúrate de que la paginación se maneje correctamente -->
+  {{#if products.hasPrevPage}} 
   <a href="{{products.prevLink}}">Anterior</a>
   {{/if}}
   <span>Página {{products.page}} de {{products.totalPages}}</span>
@@ -24,14 +24,14 @@
 
 <script>
   function addToCart(productId) {
-    const cartId = '66fdb280ce811c8293e42e41'; // Cambia esto por la lógica para obtener el ID del carrito si es necesario
-    // Lógica para agregar el producto al carrito
-    fetch(`/api/carts/${cartId}/products/${productId}`, { // Cambié a '/api/carts/${cartId}/products/${productId}'
-      method: 'PUT', // O POST dependiendo de la lógica de tu proyecto
+    const cartId = '66fdb280ce811c8293e42e41';
+  
+    fetch(`/api/carts/${cartId}/products/${productId}`, { 
+      method: 'PUT', 
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ quantity: 1 }) // Puedes ajustar la cantidad
+      body: JSON.stringify({ quantity: 1 }) 
     })
     .then(response => response.json())
     .then(data => {

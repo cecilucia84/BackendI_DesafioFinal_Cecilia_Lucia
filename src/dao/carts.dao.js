@@ -8,7 +8,7 @@ export default class CartDAO {
             throw new Error({
                 name: 'Error al obtener los carritos',
                 status: 500,
-                details: error.message // Agregar detalles del error
+                details: error.message 
             });
         }
     };

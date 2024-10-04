@@ -4,12 +4,12 @@ export default class ProductDAO {
     async getPaginateProducts(query, options) {
         try {
             const products = await Products.paginate(query, options);
-            return products || { docs: [], totalPages: 0, currentPage: 0 }; // Asegurarse de un retorno consistente
+            return products || { docs: [], totalPages: 0, currentPage: 0 }; 
         } catch (error) {
             throw new Error({
                 name: 'Error al obtener productos paginados',
                 status: 500,
-                details: error.message // Agregar detalles del error
+                details: error.message 
             });
         }
     }

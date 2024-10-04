@@ -9,7 +9,7 @@ export default class ProductRepository {
 
   async getProducts(page, limit, sort, category, availability) {
     try {
-      // Validación y formateo de los parámetros
+ 
       const query = {
         ...(category && { category }),
         ...(availability && { status: availability === 'true' })
@@ -22,15 +22,14 @@ export default class ProductRepository {
         lean: true
       };
 
-      // Verificación del número de página
+  
       if (isNaN(page) || page <= 0) {
         throw new Error({ status: 400, name: "Error de paginado." });
       }
 
-      // Llamada a la base de datos para obtener productos paginados
+     
       const products = await this.#productDAO.getPaginateProducts(query, options);
 
-      // Verificación de que la página solicitada exista
       if (!products || products.docs.length === 0) {
         return { products: [], totalPages: 0, currentPage: page };
       }
@@ -39,11 +38,11 @@ export default class ProductRepository {
         throw new Error({ status: 400, name: "Error de paginado." });
       }
 
-      // Devolver productos paginados
+      
       return products;
       
     } catch (error) {
-      // Manejo de errores con un CustomError
+   
       throw new Error({
         name: error.name || 'Error al conectar',
         status: error.status || 500
@@ -70,7 +69,7 @@ export default class ProductRepository {
     try {
       const { title, description, price, thumbnail, code, stock, category } = productData;
 
-      // Validación y formateo de parámetros
+
       const invalidOptions = isNaN(+price) || +price <= 0 || isNaN(+stock) || +stock < 0;
 
       if (!title || !description || !code || !category || invalidOptions) {
@@ -80,13 +79,11 @@ export default class ProductRepository {
       const finalThumbnail = thumbnail ? `../products/${thumbnail.originalname}` : 'Sin Imagen';
       const finalStatus = stock >= 1;
 
-      // Verificación de existencia de código
       const existingCode = await this.#productDAO.findByCode(code);
       if (existingCode) {
         throw new Error({ status: 409, name: 'El código ya existe, error al agregar el producto' });
       }
 
-      // Creación del nuevo producto
       const newProduct = {
         title,
         description,
@@ -98,7 +95,7 @@ export default class ProductRepository {
         category
       };
 
-      // Agregar el producto a la base de datos
+
       const product = await this.#productDAO.addProduct(newProduct);
       return product;
 
@@ -114,7 +111,7 @@ export default class ProductRepository {
     try {
       await this.getProductById(id);
 
-      // Verificar si se proporcionaron campos para actualizar
+
       const areFieldsPresent = Object.keys(productData).length > 0;
       if (!areFieldsPresent) {
         throw new Error({
@@ -123,7 +120,6 @@ export default class ProductRepository {
         });
       }
 
-      // Validaciones específicas según los campos
       if (productData.price && (isNaN(+productData.price) || +productData.price <= 0)) {
         throw new Error({ name: 'Precio inválido', status: 400 });
       }
