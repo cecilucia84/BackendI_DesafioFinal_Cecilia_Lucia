@@ -20,11 +20,11 @@
 
     <div class="container">
         {{#if products.hasPrevPage}}
-        <a href="{{products.prevLink}}">Anterior</a>
+        <a href="{{prevLink}}">Anterior</a>
         {{/if}}
 
         {{#if products.hasNextPage}}
-        <a href="{{products.nextLink}}">Siguiente</a>
+        <a href="{{nextLink}}">Siguiente</a>
         {{/if}}
     </div>
 
@@ -41,7 +41,7 @@
             Categoría:
             <select name="category">
                 <option value="">Todas las categorías</option>
-                <option value="Desayunos">Desayunos</option>
+                 <option value="Desayunos">Desayunos</option>
                 <option value="Tortas">Tortas</option>
             </select>
         </label>

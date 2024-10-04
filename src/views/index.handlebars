@@ -1,8 +1,8 @@
 <h1>Lista de productos</h1>
 <ul>
-  {{#each products.payload}} 
+  {{#each products}}
   <li>
-    <h2>{{this.title}}</h2> 
+    <h2>{{this.name}}</h2>
     <p>{{this.description}}</p>
     <p>Precio: {{this.price}}</p>
     <p>Categoría: {{this.category}}</p>
@@ -13,25 +13,24 @@
 </ul>
 
 <div>
-  {{#if products.hasPrevPage}} 
-  <a href="{{products.prevLink}}">Anterior</a>
+  {{#if hasPrevPage}}
+  <a href="{{prevLink}}">Anterior</a>
   {{/if}}
-  <span>Página {{products.page}} de {{products.totalPages}}</span>
-  {{#if products.hasNextPage}}
-  <a href="{{products.nextLink}}">Siguiente</a>
+  <span>Página {{page}} de {{totalPages}}</span>
+  {{#if hasNextPage}}
+  <a href="{{nextLink}}">Siguiente</a>
   {{/if}}
 </div>
 
 <script>
   function addToCart(productId) {
-    const cartId = '66fdb280ce811c8293e42e41';
-  
-    fetch(`/api/carts/${cartId}/products/${productId}`, { 
-      method: 'PUT', 
+    // Lógica para agregar el producto al carrito
+    fetch(`/api/carts/cartId/products/${productId}`, {
+      method: 'PUT', // O POST dependiendo de la lógica de tu proyecto
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ quantity: 1 }) 
+      body: JSON.stringify({ quantity: 1 }) // Puedes ajustar la cantidad
     })
     .then(response => response.json())
     .then(data => {
@@ -40,9 +39,6 @@
       } else {
         alert('Error al agregar el producto al carrito');
       }
-    })
-    .catch(error => {
-      console.error('Error al agregar al carrito:', error);
     });
   }
 </script>

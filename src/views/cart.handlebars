@@ -1,62 +1,19 @@
 <div class="container">
-    <h2>ID Carrito: {{cart._id}}</h2> 
+    <h2>ID Carrito: 66fdb280ce811c8293e42e41</h2>
     <ul>
-        {{#each cart.products}} 
+        {{#each cart.products}}
         <li>
             <div class="cartProduct">
                 <div>
-                    <p>Nombre de Producto: {{this.product.title}}</p> 
-                    <p>ID Producto: {{this.product._id}}</p> 
-                    <p>Código de Producto: {{this.product.code}}</p> 
+                    <p>Nombre de Producto: {{this.title}}</p>
+                    <p>ID Producto: {{this.productId}}</p>
+                    <p>Código de Producto: {{this.code}}</p>
                     <p>Cantidad en Carrito: {{this.quantity}}</p>
                 </div>
-                <button onclick="removeFromCart('{{this.product._id}}')">Eliminar</button> 
             </div>
         </li>
         {{/each}}
     </ul>
-    <button onclick="clearCart()">Vaciar Carrito</button> 
     <a href="/products">Volver</a>
+
 </div>
-
-<script>
-    function removeFromCart(productId) {
-        const cartId = '{{cart._id}}'; 
-        fetch(`/api/carts/${cartId}/products/${productId}`, {
-            method: 'DELETE', 
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                alert('Producto eliminado del carrito');
-          
-                location.reload();
-            } else {
-                alert('Error al eliminar el producto del carrito');
-            }
-        })
-        .catch(error => {
-            console.error('Error al eliminar del carrito:', error);
-        });
-    }
-
-    function clearCart() {
-        const cartId = '{{cart._id}}'; 
-        fetch(`/api/carts/${cartId}`, {
-            method: 'DELETE', 
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                alert('Carrito vaciado');
-             
-                location.reload();
-            } else {
-                alert('Error al vaciar el carrito');
-            }
-        })
-        .catch(error => {
-            console.error('Error al vaciar el carrito:', error);
-        });
-    }
-</script>

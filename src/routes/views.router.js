@@ -3,7 +3,7 @@ import Product from '../models/Products.js';
 
 const router = Router();
 
-
+// Renderizar la vista principal con productos paginados
 router.get('/', async (req, res) => {
   try {
     const { page = 1, limit = 10 } = req.query;
@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-
+// Renderizar la vista de detalle de producto
 router.get('/product/:id', async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);

@@ -1,15 +1,16 @@
 import ProductDAO from '../dao/products.dao.js';
 
 export default class ProductRepository {
-  #productDAO;
+
+  #productDAO
 
   constructor() {
     this.#productDAO = new ProductDAO();
-  }
+  };
 
   async getProducts(page, limit, sort, category, availability) {
     try {
- 
+      // Validación y formateo de los parámetros en un solo método
       const query = {
         ...(category && { category }),
         ...(availability && { status: availability === 'true' })
@@ -22,68 +23,66 @@ export default class ProductRepository {
         lean: true
       };
 
-  
-      if (isNaN(page) || page <= 0) {
-        throw new Error({ status: 400, name: "Error de paginado." });
-      }
+      // Verificación del número de página
+      if (isNaN(page)) {
+        throw new Error("Error de paginado.");
+      };
 
-     
+      // Llamada a la base de datos para obtener productos paginados
       const products = await this.#productDAO.getPaginateProducts(query, options);
 
-      if (!products || products.docs.length === 0) {
-        return { products: [], totalPages: 0, currentPage: page };
-      }
+      if (!products || !products.docs.length) {
+        return [];
+      };
 
+      // Verificación de que la página solicitada exista
       if (page > products.totalPages) {
-        throw new Error({ status: 400, name: "Error de paginado." });
-      }
+        throw new Error("Error de paginado.");
+      };
 
-      
+      // Devolver productos paginados
       return products;
-      
+
     } catch (error) {
-   
+      // Manejo de errores con un CustomError
       throw new Error({
         name: error.name || 'Error al conectar',
-        status: error.status || 500
       });
-    }
-  }
+    };
+  };
 
   async getProductById(id) {
     try {
       const product = await this.#productDAO.getProductById(id);
-      if (!product) {
-        throw new Error({ name: 'El producto no existe', status: 404 });
-      }
+
       return product;
-    } catch (error) {
-      throw new Error({
-        name: error.name || 'Error al obtener el producto',
-        status: error.status || 500
-      });
-    }
-  }
+
+    } catch {
+      throw new Error('El producto no existe');
+    };
+  };
 
   async addProduct(productData) {
     try {
       const { title, description, price, thumbnail, code, stock, category } = productData;
 
-
+      // Validación y formateo de parámetros
       const invalidOptions = isNaN(+price) || +price <= 0 || isNaN(+stock) || +stock < 0;
 
       if (!title || !description || !code || !category || invalidOptions) {
-        throw new Error({ status: 400, name: 'Error al agregar el producto' });
-      }
+        throw new Error('Error al agregar el producto');
+      };
 
       const finalThumbnail = thumbnail ? `../products/${thumbnail.originalname}` : 'Sin Imagen';
-      const finalStatus = stock >= 1;
+      const finalStatus = stock >= 1 ? true : false;
 
+      // Verificación de existencia de código
       const existingCode = await this.#productDAO.findByCode(code);
       if (existingCode) {
-        throw new Error({ status: 409, name: 'El código ya existe, error al agregar el producto' });
+        throw new Error('Error al agregar el producto');
       }
 
+      // Creación del nuevo producto
       const newProduct = {
         title,
         description,
@@ -95,65 +94,55 @@ export default class ProductRepository {
         category
       };
 
-
+      // Agregar el producto a la base de datos
       const product = await this.#productDAO.addProduct(newProduct);
+
       return product;
 
     } catch (error) {
       throw new Error({
         name: error.name || 'Error al conectar',
-        status: error.status || 500
       });
-    }
-  }
+    };
+  };
 
   async updateProduct(id, productData) {
     try {
       await this.getProductById(id);
 
-
+      // Verificar si se proporcionaron campos para actualizar
       const areFieldsPresent = Object.keys(productData).length > 0;
       if (!areFieldsPresent) {
-        throw new Error({
-          name: 'Campos inválidos',
-          status: 400
-        });
-      }
-
-      if (productData.price && (isNaN(+productData.price) || +productData.price <= 0)) {
-        throw new Error({ name: 'Precio inválido', status: 400 });
-      }
-      if (productData.stock && (isNaN(+productData.stock) || +productData.stock < 0)) {
-        throw new Error({ name: 'Stock inválido', status: 400 });
-      }
+        throw new Error('Campos inválidos');
+      };
 
       await this.#productDAO.updateProduct(id, productData);
 
       const updatedProduct = await this.#productDAO.getProductById(id);
+
       return updatedProduct;
 
     } catch (error) {
       throw new Error({
-        name: error.name || 'Error al actualizar el producto',
-        status: error.status || 500
+        name: error.name || 'Error al actualizar',
       });
-    }
-  }
+    };
+  };
 
   async deleteProduct(productId) {
     try {
       const product = await this.getProductById(productId);
+
       if (!product) {
-        throw new Error({ status: 404, name: 'El producto no existe.' });
-      }
+        throw new Error('El producto no existe.');
+      };
 
       return await this.#productDAO.deleteProduct(productId);
 
     } catch (error) {
       throw new Error({
-        name: error.name || 'Error al eliminar el producto',
-        status: error.status || 500
+        name: error.name || 'Error al actualizar',
       });
-    }
-  }
-}
+    };
+  };
+};
